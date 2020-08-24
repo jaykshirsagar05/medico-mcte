@@ -1250,8 +1250,9 @@ body.swal2-no-backdrop .swal2-shown {
         <input type="file" id="img" name="img" accept="image/*">
         <input type="submit">
       </form>
+      <h1>{{label}}</h1>
       {% if url %}
-        <img src="{{ url }}" alt="image"/>
+        <img src="{{ url }}" width="250" height="250" alt="image"/>
       {% endif %}  
       </div>
 

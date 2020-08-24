@@ -63,10 +63,12 @@ def analyze(request):
         name = fs.save(uploaded_image.name, uploaded_image)
         context['url'] = fs.url(name)
         label = predict(uploaded_image)
+        context['label'] = label
         pic = Analyze(images=uploaded_image)
         pic.save()
-        return redirect('/dashboard/analyze')
-    return render(request, "analyze.html", context)
+        return render(request, "analyze.html", context)
+    return redirect('/dashboard/analyze')
+    
 
 def visualize(request):
     return render(request, "visualize.html")
