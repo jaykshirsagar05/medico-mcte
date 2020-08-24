@@ -61,7 +61,7 @@ def analyze(request):
         fs = FileSystemStorage()
         name = fs.save(uploaded_image.name, uploaded_image)
         context['url'] = fs.url(name)
-        predict('jay')
+        label = predict('jay')
         pic = Analyze(images=uploaded_image)
         pic.save()
         return redirect('/dashboard/analyze')
@@ -104,6 +104,7 @@ def predict(img):
     # indices = [i for i, x in enumerate(pred) if x == 1]
     label = learn.data.classes[pred]
     print("label:{}".format(label))
+    return label
 
 # if __name__ == "__main__":
 #     predict('jay')
