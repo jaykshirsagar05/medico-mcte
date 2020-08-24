@@ -58,10 +58,11 @@ def analyze(request):
     context = {}
     if request.method == 'POST':
         uploaded_image = request.FILES['img']
+        print(uploaded_image)
         fs = FileSystemStorage()
         name = fs.save(uploaded_image.name, uploaded_image)
         context['url'] = fs.url(name)
-        label = predict('jay')
+        label = predict(uploaded_image)
         pic = Analyze(images=uploaded_image)
         pic.save()
         return redirect('/dashboard/analyze')
@@ -91,11 +92,11 @@ def logout(request):
     auth.logout(request)
     return redirect('/')
 
-def predict(img):
+def predict(pic):
     learn = load_learner('/home/jay/MCTE/medical/medical/assets/models/','odr-EffNetB3-stage2a.pkl')
     print('learner loaded...')
     tfms = get_transforms(max_rotate=360,max_zoom=0.9,max_lighting=0.1,p_lighting=0.5)
-    img = open_image('/home/jay/MCTE/medical/medical/assets/models/1088_right.jpg')
+    img = open_image(pic)
     img.apply_tfms(tfms[0],size=224)
     pred=learn.predict(img)[2]
     print('transformations applied...')
