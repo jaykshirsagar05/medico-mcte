@@ -9,6 +9,7 @@ from fastai import *
 from fastai.vision import *
 from fastai.vision.models import efficientnet
 import numpy as np
+from datetime import datetime
 
 # Create your views here.
 def dashboard(request):
@@ -53,22 +54,44 @@ def user(request):
         return render(request, "user.html", context)
 
 def analyze(request):
+    now = datetime.now()
     #patientinfo = User.objects.all()
     #print(patientinfo)
     context = {}
     if request.method == 'POST':
         uploaded_image = request.FILES['img']
         print(uploaded_image)
+        uploaded_image.name = now.strftime("%H:%M:%S")+'.jpg'
         fs = FileSystemStorage()
         name = fs.save(uploaded_image.name, uploaded_image)
         context['url'] = fs.url(name)
+        print(context['url'])
         label = predict(uploaded_image)
+        label = get_full_name(label)
         context['label'] = label
         pic = Analyze(images=uploaded_image)
         pic.save()
-        return render(request, "analyze.html", context)
-    return redirect('/dashboard/analyze')
+    return render(request, "analyze.html", context)
+    # return redirect('/dashboard/analyze')
     
+def get_full_name(label):
+    if 'A':
+        return "Age-Related Macular Degeneration"
+    elif 'O':
+        return "Other"
+    elif 'H':
+        return "Hypertensive retinopathy"
+    elif 'G':
+        return "Glaucoma"
+    elif 'D':
+        return "Drusen"
+    elif 'N':
+        return "Normal Fundus"
+    elif 'C':
+        return "Cataract"
+    else:
+        return "No Disease"
+
 
 def visualize(request):
     return render(request, "visualize.html")
