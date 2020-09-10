@@ -15,7 +15,7 @@
   <link href="{%  static  'style/css/material-dashboard.css' %}" rel="stylesheet">
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{%  static  'style/demo/demo.css' %}" rel="stylesheet">
-<style>@-webkit-keyframes swal2-show {
+<style overflow: scroll;>@-webkit-keyframes swal2-show {
   0% {
     -webkit-transform: scale(0.7);
             transform: scale(0.7); }
@@ -1151,7 +1151,7 @@ body.swal2-no-backdrop .swal2-shown {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }</style><script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/41/6/intl/en_gb/common.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/41/6/intl/en_gb/util.js"></script></head>
 
-<body class="">
+<body class="" style="overflow: scroll;">
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="{%  static  'style/img/sidebar-1.jpg' %}">
       <!--
@@ -1248,11 +1248,21 @@ body.swal2-no-backdrop .swal2-shown {
           <div class="col-md-12">
         <label for="img">Select image:</label>
         <input type="file" id="img" name="img" accept="image/*">
+        <input type="file" id="img1" name="img1" accept="image/*">
         <input type="submit">
       </form>
-      <h3>{{label}}</h3>
+    </div>
+    <div style="float: inline-start;">
+      <h3><b>Left</b>: {{label}}</h3>
       {% if url %}
       <img src= "{{ url }}" width="250" height="250" alt="image"/>
+      {% endif %}  
+      </div>
+      <div style="float: left;">
+      <h3><b>&nbsp&nbsp&nbspRight</b>: {{label1}}</h3>
+      {% if url1 %}
+      &nbsp&nbsp
+      <img src= "{{ url1 }}" width="250" height="250" alt="image"/>
       {% endif %}  
       </div>
 

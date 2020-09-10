@@ -60,34 +60,41 @@ def analyze(request):
     context = {}
     if request.method == 'POST':
         uploaded_image = request.FILES['img']
+        uploaded_image1 = request.FILES['img1']
         print(uploaded_image)
         uploaded_image.name = now.strftime("%H:%M:%S")+'.jpg'
+        uploaded_image1.name = now.strftime("%H:%M:%S")+'1.jpg'
         fs = FileSystemStorage()
         name = fs.save(uploaded_image.name, uploaded_image)
+        name1 = fs.save(uploaded_image1.name, uploaded_image1)
         context['url'] = fs.url(name)
+        context['url1'] = fs.url(name1)
         print(context['url'])
         label = predict(uploaded_image)
+        label1 = predict(uploaded_image1)
         label = get_full_name(label)
+        label1 = get_full_name(label1)
         context['label'] = label
+        context['label1'] = label1
         pic = Analyze(images=uploaded_image)
         pic.save()
     return render(request, "analyze.html", context)
     # return redirect('/dashboard/analyze')
     
 def get_full_name(label):
-    if 'A':
+    if label == 'A':
         return "Age-Related Macular Degeneration"
-    elif 'O':
+    elif label=='O':
         return "Other"
-    elif 'H':
+    elif label=='H':
         return "Hypertensive retinopathy"
-    elif 'G':
+    elif label=='G':
         return "Glaucoma"
-    elif 'D':
+    elif label=='D':
         return "Drusen"
-    elif 'N':
+    elif label=='N':
         return "Normal Fundus"
-    elif 'C':
+    elif label=='C':
         return "Cataract"
     else:
         return "No Disease"
